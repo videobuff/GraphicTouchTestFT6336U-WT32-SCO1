@@ -1,7 +1,6 @@
 /*
   demo to show functioning of touchscreen for a WT32-SCO1 display + ESP32
   using the FT6336U library https://github.com/aselectroworks/Arduino-FT6336U
-  Modified from   https://how2electronics.com/measure-wind-speed-with-anemometer-on-esp32-tft-display/
 */
 
 #include <TFT_eSPI.h> // Hardware-specific library
