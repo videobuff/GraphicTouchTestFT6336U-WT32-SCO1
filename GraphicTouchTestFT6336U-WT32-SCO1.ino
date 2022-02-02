@@ -12,9 +12,10 @@
 #define RST_N_PIN 21
 #define INT_N_PIN 34
 
-
-TFT_eSPI tft = TFT_eSPI(); // Invoke custom library with default width and height
-FT6336U ft6336u(I2C_SDA, I2C_SCL, RST_N_PIN, INT_N_PIN); // WT32-SCO1 uses 18 & 19 for SDA & SCL i2c
+// Invoke custom library with default width and height
+TFT_eSPI tft = TFT_eSPI();    
+// WT32-SCO1 uses 18 & 19 for SDA & SCL i2c - see above pin definitions                            
+FT6336U ft6336u(I2C_SDA, I2C_SCL, RST_N_PIN, INT_N_PIN);  
 
 
 int tp_x = 0;
@@ -24,6 +25,7 @@ int tp_y = 0;
 int x = 160;
 int y = 240;
 
+int padding = 0;
 
 void setup(void)
 {
@@ -54,13 +56,14 @@ void setup(void)
     // do nothing
   }
   tft.fillScreen(TFT_BLACK);
+  padding = tft.textWidth("999.9", 7); // get the width of the text in pixels
 }
 
 void loop()
 {
   if (digitalRead(INT_N_PIN) != 1) {
     while (ft6336u.read_touch1_event() == 2) {
-      tft.setTextPadding(8);
+      tft.setTextPadding(padding);
       Serial.print("FT6336U Touch Event/ID 1: ");
       Serial.println(ft6336u.read_touch1_event());
       Serial.print("TP_X: (");
