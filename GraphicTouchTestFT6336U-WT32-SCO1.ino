@@ -98,7 +98,11 @@ void loop()
         }
       }
 
- 
+      y = 130;
+      tft.drawFloat(tp_x, 0, x, y, 7);
+      y = 190;
+      tft.drawFloat(tp_y, 0, x, y, 7);
+      drawCross(tp_x, tp_y, TFT_CYAN);
 
 
     }
