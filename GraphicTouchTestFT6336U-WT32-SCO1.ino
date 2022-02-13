@@ -54,8 +54,8 @@ void setup(void)
   delay (1000);
   tft.fillScreen(TFT_BLACK);
   tft.setTextDatum(4);
-  tft.drawString("Start touching the screen", 10, y - 50, 4);
-  tft.drawString("Long press clears screen", 10, y, 4);
+  tft.drawString("Start touching the screen", x, y - 50, 4);
+  tft.drawString("Long press clears screen", x, y, 4);
   while (ft6336u.read_td_status() != 1) {
     // do nothing, waiting for a touschreen press
   }
