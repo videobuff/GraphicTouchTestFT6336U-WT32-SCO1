@@ -92,7 +92,9 @@ void loop()
           tft.fillScreen(TFT_BLACK);
           tft.drawString("Start touching the screen", x, y, 4);
           tft.drawString("Long press clears screen", x, y, 4);
-
+          while (ft6336u.read_td_status() != 1) {
+            // do nothing
+          }
         }
       }
 
