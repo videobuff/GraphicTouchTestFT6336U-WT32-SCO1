@@ -19,6 +19,9 @@ FT6336U ft6336u(I2C_SDA, I2C_SCL, RST_N_PIN, INT_N_PIN);
 
 int tp_x = 0;
 int tp_y = 0;
+int sensor1EventTime; 
+int sensor2EventTime; 
+int interval; 
 
 // Coordinates for drawing on screen
 int x = 160;
@@ -31,6 +34,7 @@ void setup(void)
   Serial.begin(115200);
   delay(500);
   ft6336u.begin();
+  
   Serial.print("Sketchname: GraphicTouchTest-WT32-SCO1 ");
   Serial.print("FT6336U Firmware Version: ");
   Serial.println(ft6336u.read_firmware_id());
@@ -60,8 +64,10 @@ void setup(void)
 
 void loop()
 {
-  if (digitalRead(INT_N_PIN) != 1) {
-    while (ft6336u.read_touch1_event() == 2) {
+  if (digitalRead(INT_N_PIN) != -1) {
+    Serial.println("in the loop for testing the touch !");
+    while (ft6336u.read_td_status() !=0) {
+      
       tft.setTextPadding(padding);
       Serial.print("FT6336U Touch Event/ID 1: ");
       Serial.println(ft6336u.read_touch1_event());
@@ -77,7 +83,7 @@ void loop()
       y = 190;
       tft.drawFloat(tp_y, 0, x, y, 7);
       drawCross(tp_x, tp_y, TFT_CYAN);
-      delay(1);
+    
     }
 
   }
