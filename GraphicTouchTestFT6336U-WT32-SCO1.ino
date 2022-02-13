@@ -21,7 +21,7 @@ int tp_x = 0;
 int tp_y = 0;
 
 // Coordinates for drawing on screen
-int x = 140;
+int x = 160;
 int y = 240;
 
 int padding = 0;
@@ -50,7 +50,7 @@ void setup(void)
   delay(1000);
   tft.drawString("with FT6336U", x, y, 4);
   delay(1000);
-  tft.drawString("02-02-2022", x, y + 50, 4);
+  tft.drawString("12-02-2022", x, y + 50, 4);
   delay (1000);
   tft.fillScreen(TFT_BLACK);
   tft.setTextDatum(4);
@@ -64,10 +64,10 @@ void setup(void)
   tp_x = ft6336u.read_touch1_x();
   tp_y = ft6336u.read_touch1_y();
   y = 130;
-  tft.drawString("TP-X ", x, y, 4);
+  tft.drawString("TP-X : ", x-30, y, 4);
   tft.drawNumber(tp_x, x + 60, y, 4);
   y = 160;
-  tft.drawString("TP-Y : ", x, y, 4);
+  tft.drawString("TP-Y : ", x-30, y, 4);
   tft.drawNumber(tp_y, x + 60, y, 4);
 }
 
@@ -102,10 +102,10 @@ void loop()
         }
       }
       y = 130;
-      tft.drawString("TP-X ", x, y, 4);
+      tft.drawString("TP-X : ", x-30, y, 4);
       tft.drawNumber(tp_x, x + 60, y, 4);
       y = 160;
-      tft.drawString("TP-Y : ", x, y, 4);
+      tft.drawString("TP-Y : ", x-30, y, 4);
       tft.drawNumber(tp_y, x + 60, y, 4);
 
       drawCross(tp_x, tp_y, TFT_CYAN);
