@@ -61,7 +61,7 @@ void setup(void)
   }
   tft.fillScreen(TFT_BLACK);
   padding = tft.textWidth("999.9", 4); // get the width of the text in pixels
-  TP-Y = ft6336u.read_touch1_x();
+  tp_x = ft6336u.read_touch1_x();
   tp_y = ft6336u.read_touch1_y();
   y = 130;
   tft.drawString("TP-X ", x, y, 4);
@@ -108,7 +108,7 @@ void loop()
       tft.drawString("TP-Y : ", x, y, 4);
       tft.drawNumber(tp_y, x + 60, y, 4);
 
-      drawCross(, tp_y, TFT_CYAN);
+      drawCross(tp_x, tp_y, TFT_CYAN);
     }
 
   }
