@@ -21,7 +21,7 @@ int tp_x = 0;
 int tp_y = 0;
 
 // Coordinates for drawing on screen
-int x = 160;
+int x = 140;
 int y = 240;
 
 int padding = 0;
@@ -46,35 +46,44 @@ void setup(void)
   tft.fillScreen(TFT_BLACK);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.setTextDatum(4);
-  tft.drawString("TEST WT32-SCO1", x, y - 25, 4);
+  tft.drawString("TEST WT32-SCO1", x, y - 50, 4);
   delay(1000);
   tft.drawString("with FT6336U", x, y, 4);
   delay(1000);
-  tft.drawString("02-02-2022", x, y + 25, 4);
+  tft.drawString("02-02-2022", x, y + 50, 4);
   delay (1000);
   tft.fillScreen(TFT_BLACK);
   tft.setTextDatum(4);
-  tft.drawString("Start touching the screen", x, y, 4);
-  tft.drawString("Long press clears screen", x, y, 4);
+  tft.drawString("Start touching the screen", 10, y - 50, 4);
+  tft.drawString("Long press clears screen", 10, y, 4);
   while (ft6336u.read_td_status() != 1) {
-    // do nothing
+    // do nothing, waiting for a touschreen press
   }
   tft.fillScreen(TFT_BLACK);
-  padding = tft.textWidth("999.9", 7); // get the width of the text in pixels
-  tp_x = ft6336u.read_touch1_x();
+  padding = tft.textWidth("999.9", 4); // get the width of the text in pixels
+  TP-Y = ft6336u.read_touch1_x();
   tp_y = ft6336u.read_touch1_y();
   y = 130;
-  tft.drawFloat(tp_x, 0, x, y, 7);
-  y = 190;
-  tft.drawFloat(tp_y, 0, x, y, 7);
+  tft.drawString("TP-X ", x, y, 4);
+  tft.drawNumber(tp_x, x + 60, y, 4);
+  y = 160;
+  tft.drawString("TP-Y : ", x, y, 4);
+  tft.drawNumber(tp_y, x + 60, y, 4);
 }
 
 void loop()
 {
-
   if (digitalRead(INT_N_PIN) != -1) {
-      while (ft6336u.read_td_status() != 0) {
+    Serial.println("in the loop for testing the touch !");
+    while (ft6336u.read_td_status() != 0) {
       tft.setTextPadding(padding);
+      Serial.print("FT6336U Touch Event/ID 1: ");
+      Serial.println(ft6336u.read_touch1_event());
+      Serial.print("TP-Y: (");
+      Serial.println(ft6336u.read_touch1_x());
+      Serial.print("TP_Y: (");
+      Serial.println(ft6336u.read_touch1_y());
+
       tp_x = ft6336u.read_touch1_x();
       sensor1EventTime = millis();
       tp_y = ft6336u.read_touch1_y();
@@ -82,30 +91,24 @@ void loop()
         sensor2EventTime = millis();
         if ((sensor2EventTime - sensor1EventTime) > 3000  && ft6336u.read_td_status() != 0) {
           tft.fillScreen(TFT_BLACK);
-          tft.drawString("Start touching the screen", x, y, 4);
+          tft.drawString("Start touching the screen", x, y - 50, 4);
           tft.drawString("Long press clears screen", x, y, 4);
-          
           while (ft6336u.read_td_status() != 1) {
-            // do nothing
+            // do nothing, waiting for a touschreen press
+            sensor1EventTime = 0;
+            sensor2EventTime = 0;
           }
           tft.fillScreen(TFT_BLACK);
-          tp_x = ft6336u.read_touch1_x();
-          tp_y = ft6336u.read_touch1_y();
-          y = 130;
-          tft.drawFloat(tp_x, 0, x, y, 7);
-          y = 190;
-          tft.drawFloat(tp_y, 0, x, y, 7);
-          delay(100);
         }
       }
-
       y = 130;
-      tft.drawFloat(tp_x, 0, x, y, 7);
-      y = 190;
-      tft.drawFloat(tp_y, 0, x, y, 7);
-      drawCross(tp_x, tp_y, TFT_CYAN);
+      tft.drawString("TP-X ", x, y, 4);
+      tft.drawNumber(tp_x, x + 60, y, 4);
+      y = 160;
+      tft.drawString("TP-Y : ", x, y, 4);
+      tft.drawNumber(tp_y, x + 60, y, 4);
 
-
+      drawCross(, tp_y, TFT_CYAN);
     }
 
   }
